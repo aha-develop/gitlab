@@ -1,0 +1,45 @@
+{
+  "name": "@aha-develop/gitlab",
+  "description": "GitLab integration",
+  "version": "0.0.1",
+  "author": "Aha! (support@aha.io)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aha-develop/gitlab"
+  },
+  "dependencies": {
+    "@aha-app/aha-develop-react": "^1.0.0",
+    "gql-tag": "^1.0.1"
+  },
+  "type": "module",
+  "license": "MIT",
+  "ahaExtension": {
+    "cspSources": [
+    ],
+    "contributes": {
+      "views": {
+        "links": {
+          "title": "GitLab",
+          "host": "attribute",
+          "entryPoint": "src/views/attribute.js",
+          "recordTypes": [
+            "Feature",
+            "Epic",
+            "Requirement"
+          ]
+        }
+      },
+      "endpoints": {
+        "webhook": {
+          "title": "Webhook from GitLab",
+          "entryPoint": "src/webhooks/webhook.js",
+          "public": true
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3"
+  }
+}
