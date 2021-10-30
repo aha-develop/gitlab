@@ -1,4 +1,4 @@
-declare namespace Github {
+declare namespace Gitlab {
   type PullRequestReviewDecision =
     | "CHANGES_REQUESTED"
     | "APPROVED"
@@ -6,7 +6,7 @@ declare namespace Github {
 
   type StatusState = "EXPECTED" | "ERROR" | "FAILURE" | "SUCCESS" | "PENDING";
 
-  interface PrLabel {
+  interface MrLabel {
     color: string;
     name: string;
   }
@@ -23,7 +23,7 @@ declare namespace Github {
     status: { contexts: Context[] } | null;
   }
 
-  interface PrForLink {
+  interface MrForLink {
     id: number;
     number: number;
     title: string;
@@ -34,21 +34,21 @@ declare namespace Github {
     headRef: { name: string } | null;
   }
 
-  interface PrWithStatus extends PrForLink {
+  interface MrWithStatus extends MrForLink {
     commits: { nodes: { commit: CommitStatus }[] };
   }
 
-  interface PrForReviewDecision extends PrForLink {
+  interface MrForReviewDecision extends MrForLink {
     reviewDecision: PullRequestReviewDecision;
     latestReviews: { nodes: { state: PullRequestReviewDecision }[] };
   }
 
-  interface PrWithLabels extends PrForLink {
-    labels: { nodes: PrLabel[] };
+  interface MrWithLabels extends MrForLink {
+    labels: { nodes: MrLabel[] };
   }
 
-  type PrForLinkWithStatus = PrForLink & PrWithStatus;
+  type MrForLinkWithStatus = MrForLink & MrWithStatus;
 
-  type Pr = PrForLink &
-    Partial<PrWithStatus & PrForReviewDecision & PrWithLabels>;
+  type Mr = MrForLink &
+    Partial<MrWithStatus & MrForReviewDecision & MrWithLabels>;
 }

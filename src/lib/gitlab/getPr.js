@@ -8,12 +8,12 @@ import { repoFromUrl } from "../github/repoFromUrl";
  */
 
 /**
- * @param {import('../github/api').GithubApi} api
+ * @param {import('./api').GithubApi} api
  * @param {string} owner
  * @param {string} name
  * @param {number} number
  * @param {GetPrOptions=} options
- * @returns {Promise<Github.Pr>}
+ * @returns {Promise<Gitlab.Pr>}
  */
 export async function getPr(api, owner, name, number, options = {}) {
   const {
@@ -28,7 +28,7 @@ export async function getPr(api, owner, name, number, options = {}) {
 const prNumberFromUrl = (url) => Number(new URL(url).pathname.split("/")[4]);
 
 /**
- * @param {import('../github/api').GithubApi} api
+ * @param {import('./api').GithubApi} api
  * @param {string} url
  * @param {GetPrOptions=} options
  */

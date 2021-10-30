@@ -1,15 +1,13 @@
 import React from "react";
-
-async function sync(record) {
-  await aha.command("aha-develop.github.sync", { record });
-}
+import { unlinkBranches, unlinkMergeRequests } from "../../lib/fields";
 
 async function addLink(record) {
-  await aha.command("aha-develop.github.addLink", { record });
+  await aha.command("aha-develop.gitlab.addLink", { record });
 }
 
 async function removeLinks(record) {
-  await aha.command("aha-develop.github.removeLinks", { record });
+  await unlinkMergeRequests(record);
+  await unlinkBranches(record);
 }
 
 export function Menu({ record }) {
@@ -18,12 +16,11 @@ export function Menu({ record }) {
       <aha-button slot="button" type="attribute" size="small">
         <aha-icon icon="fa-solid fa-ellipsis"></aha-icon>
       </aha-button>
-      <aha-menu-item onClick={() => sync(record)}>Resync</aha-menu-item>
       <aha-menu-item onClick={() => addLink(record)}>
-        Link pull request
+        Link merge request
       </aha-menu-item>
       <aha-menu-item onClick={() => removeLinks(record)}>
-        Unlink pull requests
+        Unlink merge requests
       </aha-menu-item>
     </aha-menu>
   );

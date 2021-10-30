@@ -143,15 +143,15 @@ export const RepoFragment = gql`
 `;
 
 export function isPrForReviewDecision(
-  pr: Github.Pr
-): pr is Github.PrForReviewDecision {
+  pr: Gitlab.Pr
+): pr is Gitlab.PrForReviewDecision {
   return Boolean(pr.latestReviews?.nodes);
 }
 
-export function isPrWithStatus(pr: Github.Pr): pr is Github.PrWithStatus {
+export function isPrWithStatus(pr: Gitlab.Pr): pr is Gitlab.PrWithStatus {
   return Object.keys(pr).includes("commits");
 }
 
-export function isPrWithLabels(pr: Github.Pr): pr is Github.PrWithLabels {
+export function isPrWithLabels(pr: Gitlab.Pr): pr is Gitlab.PrWithLabels {
   return Boolean(pr.labels?.nodes);
 }

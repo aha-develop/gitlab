@@ -76,15 +76,15 @@ function accountMrId(number, ref) {
  */
 function gitlabMrToMrLink(mr) {
   return {
-    id: mr.number,
+    id: mr.iid,
     name: mr.title,
-    url: mr.html_url || mr.url,
-    state: mr.merged ? "merged" : mr.state,
+    url: mr.url,
+    state: mr.state,
   };
 }
 
 /**
- * @param {Github.MrForLink} mr
+ * @param {Gitlab.MrForLink} mr
  * @param {LinkableRecord} record
  */
 async function linkMergeRequestToRecord(mr, record) {
@@ -102,7 +102,7 @@ async function linkMergeRequestToRecord(mr, record) {
 }
 
 /**
- * @param {Github.MrForLink} mr
+ * @param {Gitlab.MrForLink} mr
  */
 async function linkMergeRequest(mr) {
   const record = await referenceToRecord(mr.title);
@@ -262,5 +262,5 @@ export {
   unlinkMergeRequests,
   linkBranch,
   unlinkBranches,
-  gitlabMrToMrLink as githubMrToMrLink,
+  gitlabMrToMrLink,
 };
