@@ -4,13 +4,15 @@ import {
   referenceToRecord,
 } from "../lib/fields.js";
 
+const EMPTY_SHA = '0000000000000000000000000000000000000000';
+
 aha.on("webhook", async ({ headers, payload }) => {
   const event = headers.HTTP_X_GITLAB_EVENT;
 
   console.log(`Received webhook '${event}' ${payload.event_type || ""}`);
 
   switch (event) {
-    case "push":
+    case "Push Hook":
       await handleCreateBranch(payload);
       break;
     case "Merge Request Hook":
@@ -33,21 +35,20 @@ async function handleMergeRequest(payload) {
     if (mr.source_branch) {
       await linkBranch(mr.source_branch, mr.source.web_url);
     }
-
-    await triggerEvent("merge_request", payload, record);
-  } else {
-    await triggerEvent("merge_request", payload, null);
   }
+
+  await triggerEvent(`merge_request.${mr.action}`, payload, record);
 }
 
 async function handleCreateBranch(payload) {
-  // We only care about branches.
-  if (payload.ref_type != "branch") {
-    return;
+  // GitLab doesn't have a dedicated event for new branches
+  // Detect via the method recommended in the feature request:
+  //   https://gitlab.com/gitlab-org/gitlab/-/issues/17962#note_214985234
+  if (payload.before === EMPTY_SHA) {
+    const branchName = payload.ref.replace('refs/heads/', '')
+    const record = await linkBranch(branchName, payload.repository.homepage);
+    await triggerEvent("branch.create", payload, record);
   }
-
-  const record = await linkBranch(payload.ref, payload.repository.html_url);
-  await triggerEvent("branch", payload, record);
 }
 
 /**
@@ -62,7 +63,7 @@ async function triggerEvent(event, payload, referenceText) {
     record = await referenceToRecord(referenceText);
   }
 
-  aha.triggerServer(`aha-develop.gitlab.${event}.${payload.object_attributes.action}`, {
+  aha.triggerServer(`aha-develop.gitlab.${event}`, {
     record,
     payload,
   });

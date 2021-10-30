@@ -176,7 +176,7 @@ async function linkBranchToRecord(branchName, repoUrl, record) {
   await appendField(record, BRANCHES_FIELD, {
     id: branchName,
     name: branchName,
-    url: `${repoUrl}/tree/${branchName}`,
+    url: `${repoUrl}/-/tree/${branchName}`,
   });
 }
 
