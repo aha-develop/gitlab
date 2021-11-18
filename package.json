@@ -7,21 +7,40 @@
     "type": "git",
     "url": "https://github.com/aha-develop/gitlab"
   },
+  "scripts": {
+    "format": "prettier --write 'src/**/*.ts'"
+  },
   "dependencies": {
     "@aha-app/aha-develop-react": "^1.0.0",
-    "gql-tag": "^1.0.1"
+    "gql-tag": "^1.0.1",
+    "graphql": "^16.0.1",
+    "graphql-request": "^3.6.1",
+    "graphql-tag": "^2.12.6",
+    "lodash": "^4.17.21"
   },
   "type": "module",
   "license": "MIT",
   "ahaExtension": {
     "cspSources": [
+      "https://gitlab.com"
     ],
     "contributes": {
+      "settings": {
+        "repos": {
+          "title": "Related repositories",
+          "scope": [
+            "account"
+          ],
+          "type": "string",
+          "array": true,
+          "description": "List of the GitLab repositories that should be searched for related pull requests. e.g. 'rails/rails'."
+        }
+      },
       "views": {
         "links": {
           "title": "GitLab",
           "host": "attribute",
-          "entryPoint": "src/views/attribute.js",
+          "entryPoint": "src/views/attribute.tsx",
           "recordTypes": [
             "Feature",
             "Epic",
@@ -29,17 +48,37 @@
           ]
         }
       },
+      "commands": {
+        "createBranch": {
+          "title": "GitLab: Create a branch",
+          "entryPoint": "src/commands/createBranch.ts"
+        },
+        "sync": {
+          "title": "GitLab: Sync pull requests",
+          "entryPoint": "src/commands/sync.ts"
+        },
+        "addLink": {
+          "title": "GitLab: Link pull request to record",
+          "entryPoint": "src/commands/addLink.ts"
+        },
+        "removeLinks": {
+          "title": "GitLab: Remove linked pull requests from record",
+          "entryPoint": "src/commands/removeLinks.ts"
+        }
+      },
       "endpoints": {
         "webhook": {
           "title": "Webhook from GitLab",
-          "entryPoint": "src/webhooks/webhook.js",
+          "entryPoint": "src/webhooks/webhook.ts",
           "public": true
         }
       }
     }
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.176",
     "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3"
+    "@types/react-dom": "^17.0.3",
+    "prettier": "^2.4.1"
   }
 }

@@ -1,17 +1,13 @@
-import { useOutsideAlerter } from "@aha-app/aha-develop-react";
+import { useCallback, useRef, useState } from 'react';
+import { useOutsideAlerter } from '@aha-app/aha-develop-react';
 // @ts-ignore
-import { usePopper } from "https://cdn.skypack.dev/react-popper";
-import { useCallback, useRef, useState } from "react";
+import { usePopper } from 'https://cdn.skypack.dev/react-popper';
 
 export function usePopperAlerter(options) {
   const delay = options.delay || 500;
   const [referenceElement, setReferenceElement] = useState(null);
   const popperElement = useRef(null);
-  const { styles, attributes } = usePopper(
-    referenceElement,
-    popperElement.current,
-    options
-  );
+  const { styles, attributes } = usePopper(referenceElement, popperElement.current, options);
   const [visible, setVisible] = useState(false);
   const allowToggle = useRef(true);
 
@@ -36,7 +32,7 @@ export function usePopperAlerter(options) {
         }, delay);
       }
     },
-    { event: "mouseover" }
+    { event: 'mouseover' }
   );
 
   return {
@@ -46,6 +42,6 @@ export function usePopperAlerter(options) {
     setReferenceElement,
     styles,
     toggle,
-    visible,
+    visible
   };
 }

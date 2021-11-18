@@ -1,157 +1,85 @@
-import gql from "gql-tag";
+import { gql } from 'graphql-request';
 
-export const PrForLinkFragment = gql`
-  fragment PrForLink on PullRequest {
+export const LabelFieldsFragment = gql`
+  fragment LabelFields on Label {
+    color
+    description
+    descriptionHtml
     id
-    number
+    textColor
     title
-    url
-    state
-    merged
-    repository {
-      url
-    }
-    headRef {
-      name
-    }
   }
 `;
 
-export const PrForReviewDecisionFragment = gql`
-  fragment PrForReviewDecision on PullRequest {
-    reviewDecision
-    latestReviews(first: 5) {
-      nodes {
-        state
-      }
+export const MRLabelsFragment = gql`
+  fragment MRLabels on LabelConnection {
+    count
+    nodes {
+      ...LabelFields
     }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+  ${LabelFieldsFragment}
+`;
+
+export const ProjectFieldsFragment = gql`
+  fragment ProjectFields on Project {
+    name
+    webUrl
+    id
   }
 `;
 
-export const PrStatusFragment = gql`
-  fragment PrStatus on PullRequest {
-    commits(last: 1) {
-      nodes {
-        commit {
-          statusCheckRollup {
-            state
-          }
-          status {
-            contexts {
-              context
-              description
-              targetUrl
-              avatarUrl
-              state
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const PrLabelsFragment = gql`
-  fragment PrLabels on PullRequest {
+export const MRFieldsFragment = gql`
+  fragment MRFields on MergeRequest {
+    approved
+    createdAt
+    id
+    sourceBranch
+    title
+    updatedAt
+    commitCount
+    createdAt
+    description
+    iid
     labels(first: 5) {
-      nodes {
-        color
-        name
-      }
+      ...MRLabels
+    }
+    mergeStatusEnum
+    sourceBranch
+    state
+    targetBranch
+    title
+    titleHtml
+    updatedAt
+    webUrl
+    descriptionHtml
+    project {
+      ...ProjectFields
     }
   }
+  ${MRLabelsFragment}
+  ${ProjectFieldsFragment}
 `;
 
-const PrIncludeParams = `
-    $includeStatus: Boolean = false
-    $includeReviews: Boolean = false
-    $includeLabels: Boolean = false
-`;
-
-const PrIncludes = `
-  ...PrForLink
-  ...PrStatus @include(if: $includeStatus)
-  ...PrForReviewDecision @include(if: $includeReviews)
-  ...PrLabels @include(if: $includeLabels)
-`;
-
-export const SearchForPr = gql`
-  query searchForPr(
-    $searchQuery: String!
-    $count: Int!
-    ${PrIncludeParams}
-  ) {
-    search(query: $searchQuery, type: ISSUE, first: $count) {
-      edges {
-        node {
-          __typename
-          ... on PullRequest {
-            ${PrIncludes}
-          }
+export const GetMRByIid = gql`
+  query getProjects($fullPath: ID!, $iids: [String!]) {
+    project(fullPath: $fullPath) {
+      mergeRequests(iids: $iids) {
+        count
+        nodes {
+          ...MRFields
+        }
+        pageInfo {
+          endCursor
         }
       }
     }
   }
-
-  ${PrForLinkFragment}
-  ${PrStatusFragment}
-  ${PrForReviewDecisionFragment}
-  ${PrLabelsFragment}
+  ${MRFieldsFragment}
 `;
-
-export const GetPr = gql`
-  query GetPr(
-    $name: String!
-    $owner: String!
-    $number: Int!
-    ${PrIncludeParams}
-  ) {
-    repository(name: $name, owner: $owner) {
-      pullRequest(number: $number) {
-        __typename
-        ${PrIncludes}
-      }
-    }
-  }
-
-  ${PrForLinkFragment}
-  ${PrStatusFragment}
-  ${PrForReviewDecisionFragment}
-  ${PrLabelsFragment}
-`;
-
-export const RepoFragment = gql`
-  fragment RepoFragment on Repository {
-    nameWithOwner
-    refs(
-      refPrefix: "refs/heads/"
-      orderBy: { field: TAG_COMMIT_DATE, direction: ASC }
-      first: 5
-    ) {
-      edges {
-        node {
-          __typename
-          name
-          target {
-            oid
-            commitUrl
-          }
-        }
-      }
-    }
-  }
-`;
-
-export function isPrForReviewDecision(
-  pr: Gitlab.Pr
-): pr is Gitlab.PrForReviewDecision {
-  return Boolean(pr.latestReviews?.nodes);
-}
-
-export function isPrWithStatus(pr: Gitlab.Pr): pr is Gitlab.PrWithStatus {
-  return Object.keys(pr).includes("commits");
-}
-
-export function isPrWithLabels(pr: Gitlab.Pr): pr is Gitlab.PrWithLabels {
-  return Boolean(pr.labels?.nodes);
-}
