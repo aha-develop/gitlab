@@ -3,23 +3,47 @@ import { useAuth } from '@aha-app/aha-develop-react';
 
 import { Menu } from './Menu';
 import { MergeRequests } from './MergeRequests';
+import { Branches } from './Branches';
+import { IDENTIFIER } from '@lib/extension';
+import { getExtensionFields } from '@lib/fields';
 
 export type AttributeProps = {
   record: Aha.RecordUnion;
   fields: IRecordExtensionFields;
 };
 
-export const Attribute = ({ fields, record }: AttributeProps) => {
+export const Attribute = ({ fields, record }: AttributeProps, { identifier, settings }) => {
+  const [isLoading, setLoading] = React.useState(false);
+  const [branches, setBranches] = React.useState<IRecordExtensionFieldBranch[]>([]);
+  const [mergeRequests, setMergeRequests] = React.useState<IExtensionFieldMergeRequest[]>([]);
   const { error, authed } = useAuth(async () => {});
   const authError = error && <div>{error}</div>;
-  const isLinked = [fields.branches, fields.mergeRequests].some((ary) => ary && ary?.length > 0);
+  const isLinked = [branches, mergeRequests].some((ary) => ary && ary?.length > 0);
+
+  React.useEffect(() => {
+    getFields();
+  }, [authed, fields]);
+
+  const getFields = async () => {
+    setLoading(true);
+    const branches = await getExtensionFields('branches', record);
+    setBranches(branches as any);
+    const mergeRequests = await getExtensionFields('mergeRequests', record);
+    setMergeRequests(mergeRequests as any);
+    setLoading(false);
+  };
+
+  if (isLoading) {
+    return <aha-spinner />;
+  }
 
   return (
     <aha-flex align-items="center" justify-content="space-between" gap="5px">
       {authError}
       {isLinked ? (
         <aha-flex direction="column" gap="8px" justify-content="space-between">
-          <MergeRequests record={record} mrs={fields?.mergeRequests ?? []}></MergeRequests>
+          <Branches branches={branches ?? []} />
+          <MergeRequests record={record} mrs={mergeRequests ?? []}></MergeRequests>
         </aha-flex>
       ) : (
         <aha-flex

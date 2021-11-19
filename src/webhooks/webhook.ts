@@ -43,23 +43,30 @@ const handleMergeRequest = async (payload: Webhook.Payload) => {
   await linkMergeRequestToRecord(mr, record);
 };
 
-async function handleCreateBranch(payload) {
+async function handleCreateBranch(payload: Webhook.Payload) {
   // GitLab doesn't have a dedicated event for new branches
   // Detect via the method recommended in the feature request:
   //   https://gitlab.com/gitlab-org/gitlab/-/issues/17962#note_214985234
+  // if before commit non exist, new branch
   if (payload.before === EMPTY_SHA) {
-    const branchName = payload.ref.replace('refs/heads/', '');
-    const record = await linkBranch(branchName, payload.repository.homepage);
+    const branchName = payload?.ref?.replace('refs/heads/', '') ?? '';
+    if (!branchName) {
+      return;
+    }
+
+    const record = await linkBranch(branchName, payload?.repository?.homepage ?? '');
     await triggerEvent('branch.create', payload, record);
   }
 }
 
 /**
- * @param {string} event
- * @param {*} payload
- * @param {*} referenceText
+ * Trigger an Event
+ *
+ * @param event
+ * @param payload
+ * @param referenceText
  */
-async function triggerEvent(event, payload, referenceText) {
+const triggerEvent = async (event: string, payload: any, referenceText) => {
   let record = referenceText;
 
   if (typeof referenceText === 'string') {
@@ -70,4 +77,4 @@ async function triggerEvent(event, payload, referenceText) {
     record,
     payload
   });
-}
+};

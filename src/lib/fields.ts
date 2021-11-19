@@ -24,9 +24,9 @@ export const linkMergeRequestToRecord = async (mr: Gitlab.MR, record: Aha.Record
     }
   ]);
 
-  // if (mr.sourceBranch) {
-  //   await linkBranchToRecord(mr.sourceBranch, mr.project?.webUrl ?? '', record);
-  // }
+  if (mr.sourceBranch) {
+    await linkBranchToRecord(mr.sourceBranch, mr.project?.webUrl ?? '', record);
+  }
 };
 
 /**
@@ -250,6 +250,7 @@ export const unlinkBranches = async (record: Aha.RecordUnion) => {
  */
 export const referenceToRecordFromTitle = async (str: string): Promise<Aha.RecordUnion | null> => {
   const ahaReference = extractReference(str);
+
   if (!ahaReference) {
     return null;
   }
@@ -291,21 +292,23 @@ function extractReference(name) {
   let matches;
 
   // Requirement
-  if ((matches = name.match(/[a-z]{1,10}-[0-9]+-[0-9]+/i))) {
+  if ((matches = name.match(/[a-z0-9]{1,10}-[0-9]+-[0-9]+/i))) {
     return {
       type: 'Requirement',
       referenceNum: matches[0]
     };
   }
+
   // Epic
-  if ((matches = name.match(/[a-z]{1,10}-E-[0-9]+/i))) {
+  if ((matches = name.match(/[a-z0-9]{1,10}-E-[0-9]+/i))) {
     return {
       type: 'Epic',
       referenceNum: matches[0]
     };
   }
+
   // Feature
-  if ((matches = name.match(/[a-z]{1,10}-[0-9]+/i))) {
+  if ((matches = name.match(/[a-z0-9]{1,10}-[0-9]+/i))) {
     return {
       type: 'Feature',
       referenceNum: matches[0]

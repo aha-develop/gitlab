@@ -3,4 +3,4 @@ declare interface ParsedMR {
   mrId: string;
 }
 
-declare type Command = 'addLink' | 'removeLinks' | 'sync';
+declare type Command = 'addLink' | 'removeLinks' | 'sync' | 'branch.create';
