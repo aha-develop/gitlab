@@ -8,6 +8,7 @@ import { IDENTIFIER } from './extension';
  */
 export const linkMergeRequestToRecord = async (mr: Gitlab.MR, record: Aha.RecordUnion) => {
   const mrLink = gitlabMrToMrLink(mr);
+
   await appendFieldToRecord(record, 'mergeRequests', [
     {
       ...mrLink
@@ -18,8 +19,8 @@ export const linkMergeRequestToRecord = async (mr: Gitlab.MR, record: Aha.Record
     {
       ...mrLink,
       ahaReference: {
-        type: record.typename,
-        referenceNum: record.referenceNum
+        type: record?.typename,
+        referenceNum: record?.referenceNum
       }
     }
   ]);
@@ -156,6 +157,7 @@ export const linkMergeRequest = async (mr: Gitlab.MR) => {
   if (mr?.id) {
     record = await referenceToRecordFromId(mr.id);
   }
+
   if (!record && mr?.title) {
     record = await referenceToRecordFromTitle(mr.title ?? '');
   }

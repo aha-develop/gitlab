@@ -4,6 +4,12 @@ import { getMRFromURL } from '@lib/gitlab/getMRFromURL';
 import { validateMrURL } from '@lib/gitlab/validateMrURL';
 
 aha.on('addLink', async ({ record, context }) => {
+  if (!record) {
+    // @ts-ignore
+    aha.commandOutput('Open a record first to sync MRs for that record');
+    return;
+  }
+
   const mrUrl = await aha.commandPrompt('Link URL', {
     placeholder: 'Enter the URL to a merge request'
   });

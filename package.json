@@ -54,15 +54,15 @@
           "entryPoint": "src/commands/createBranch.ts"
         },
         "sync": {
-          "title": "GitLab: Sync pull requests",
+          "title": "GitLab: Sync merge requests",
           "entryPoint": "src/commands/sync.ts"
         },
         "addLink": {
-          "title": "GitLab: Link pull request to record",
+          "title": "GitLab: Link merge request to record",
           "entryPoint": "src/commands/addLink.ts"
         },
         "removeLinks": {
-          "title": "GitLab: Remove linked pull requests from record",
+          "title": "GitLab: Remove linked merge requests from record",
           "entryPoint": "src/commands/removeLinks.ts"
         }
       },
