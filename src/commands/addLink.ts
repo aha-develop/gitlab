@@ -21,5 +21,7 @@ aha.on('addLink', async ({ record, context }) => {
   const res = await withGitLubApi(getMRFromURL(mrUrl));
   if (res) {
     await linkMergeRequestToRecord(res, record);
+  } else {
+    throw new Error('Could not link this merge request! Please enter a valid merge request URL!');
   }
 });
