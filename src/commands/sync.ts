@@ -14,7 +14,7 @@ aha.on('sync', async ({ record }, { settings }) => {
   console.log(`Syncing MRs for ${record.referenceNum}`);
 
   const mergeRequests = (await getExtensionFields('mergeRequests', record)) as IExtensionFieldMergeRequest[];
-  for await (const mr of mergeRequests) {
+  for await (const mr of mergeRequests ?? []) {
     if (mr?.webUrl) {
       const mrResult = await withGitLubApi(getMRFromURL(mr?.webUrl));
       if (mrResult) {
