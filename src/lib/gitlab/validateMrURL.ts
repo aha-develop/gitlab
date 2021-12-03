@@ -1,5 +1,5 @@
 /**
- * Validate Pull Request URL
+ * Validate Merge Request URL
  *
  * @param urlString
  * @returns

@@ -8,7 +8,7 @@ export type MergeRequestsProps = {
 
 export const MergeRequests = ({ record, mrs }: MergeRequestsProps) => {
   return (
-    <div className="pull-requests">
+    <div className="merge-requests">
       <aha-flex direction="column" gap="3px">
         {(mrs || []).map((mr, idx) => (
           <MergeRequest key={idx} record={record} mr={mr} />

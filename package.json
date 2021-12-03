@@ -49,10 +49,6 @@
         }
       },
       "commands": {
-        "createBranch": {
-          "title": "GitLab: Create a branch",
-          "entryPoint": "src/commands/createBranch.ts"
-        },
         "sync": {
           "title": "GitLab: Sync merge requests",
           "entryPoint": "src/commands/sync.ts"
