@@ -25,7 +25,7 @@ aha.on({ event: 'aha-develop.gitlab.mr.update' }, async ({ record, payload }) =>
 
 **Note: In order to install an extension into your Aha! Develop account, you must be an account administrator.**
 
-1. Install the GitLab extension by clicking [here]().
+1. Install the GitLab extension by clicking [here](https://secure.aha.io/settings/account/extensions/install?url=https%3A%2F%2Fsecure.aha.io%2Fextensions%2Faha-develop.gitlab.gz).
 
 2. Configure a webhook in GitLab. The extension will automatically link Aha! records to branches and pull requests in GitLab if you include the Aha! reference number (like `APP-123`) in the name of the branch or pull request. To enable this:
 
