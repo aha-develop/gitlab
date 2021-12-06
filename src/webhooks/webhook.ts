@@ -41,6 +41,7 @@ const handleMergeRequest = async (payload: Webhook.Payload) => {
 
   // Link MR to record
   await linkMergeRequestToRecord(mr, record);
+  await triggerEvent('mr.update', payload, record);
 };
 
 async function handleCreateBranch(payload: Webhook.Payload) {

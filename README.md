@@ -10,7 +10,7 @@ It provides these contributions:
 The GitLab extension triggers events that other extensions can use for automation. For example, an extension can listen for the label event:
 
 ```js
-aha.on({ event: 'aha-develop.gitlab.pr.update' }, async ({ record, payload }) => {
+aha.on({ event: 'aha-develop.gitlab.mr.update' }, async ({ record, payload }) => {
   if (mrIncludesLabel(payload, 'documentation')) {
     const task = new aha.models.Task();
     task.record = record;
