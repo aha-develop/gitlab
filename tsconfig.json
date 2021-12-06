@@ -9,7 +9,17 @@
     "downlevelIteration": true,
     "module": "ES6",
     "moduleResolution": "node",
-    "target": "ES6"
+    "target": "ES6",
+    "typeRoots": ["./src/types"],
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@components": ["./components/"],
+      "@helpers/*": ["./helpers/*"],
+      "@helpers": ["./helpers/"],
+      "@lib/*": ["./lib/*"],
+      "@lib": ["./lib/"]
+    }
   },
-  "include": [".aha-cache/aha.d.ts", "src"]
+  "include": [".aha-cache/types", "src"]
 }

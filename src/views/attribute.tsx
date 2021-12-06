@@ -1,6 +1,6 @@
-import React from "react";
-import { Attribute } from "../components/attribute/Attribute";
-import { ExtensionRoot } from "../components/ExtensionRoot";
+import React from 'react';
+import { Attribute } from '../components/attribute/Attribute';
+import { ExtensionRoot } from '../components/ExtensionRoot';
 
 /**
  * @type {Aha.RenderExtension}
@@ -13,4 +13,4 @@ const links = ({ record, fields }) => {
   );
 };
 
-aha.on("links", links);
+aha.on('links', links);
