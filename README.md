@@ -1,22 +1,21 @@
-# GitHub for Aha! Develop
+# GitLab for Aha! Develop
 
-This is an extension for [Aha! Develop](https://www.aha.io/develop) providing integration with GitHub.
+This is an extension for [Aha! Develop](https://www.aha.io/develop) providing integration with GitLab.
 
 It provides these contributions:
 
 - `Links attribute` - Link Aha! Develop records to GitHub branches and pull requests. See the status checks and approvals for the PR.
-- `My Pull Requests` - A full page view of recent Pull Requests and branches.
 - `Webhook` - Automatically links pull requests to records if the PR title starts with the record reference number.
 
-The GitHub extension triggers events that other extensions can use for automation. For example, an extension can listen for the label event:
+The GitLab extension triggers events that other extensions can use for automation. For example, an extension can listen for the label event:
 
 ```js
-aha.on({ event: 'aha-develop.github.pr.labeled' }, async ({ record, payload }) => {
-  if (payload.label.name = 'documentation') {
+aha.on({ event: 'aha-develop.gitlab.pr.update' }, async ({ record, payload }) => {
+  if (mrIncludesLabel(payload, 'documentation')) {
     const task = new aha.models.Task();
     task.record = record;
     task.name = 'Write documentation';
-    task.body = `Todo created from GitHub PR ${payload["pull_request"]["html_url"]}`;
+    task.body = `Todo created from GitLab PR ${payload["web_url"]}`;
     await task.save();
   }
 });
@@ -26,17 +25,17 @@ aha.on({ event: 'aha-develop.github.pr.labeled' }, async ({ record, payload }) =
 
 **Note: In order to install an extension into your Aha! Develop account, you must be an account administrator.**
 
-1. Install the GitHub extension by clicking [here](https://secure.aha.io/settings/account/extensions/install?url=https%3A%2F%2Fsecure.aha.io%2Fextensions%2Faha-develop.github.gz).
+1. Install the GitLab extension by clicking [here]().
 
-2. Configure a webhook in GitHub. The extension will automatically link Aha! records to branches and pull requests in GitHub if you include the Aha! reference number (like `APP-123`) in the name of the branch or pull request. To enable this:
+2. Configure a webhook in GitLab. The extension will automatically link Aha! records to branches and pull requests in GitLab if you include the Aha! reference number (like `APP-123`) in the name of the branch or pull request. To enable this:
 
-   - In Aha! go to Settings -> Account -> Extensions -> GitHub Integration -> Webhook from Github. Copy the hidden URL.
+   - In Aha! go to Settings -> Account -> Extensions -> GitLab Integration -> Webhook from GitLab. Copy the hidden URL.
 
-   - In GitHub go to each repo that you want to integrate with Aha!. In Settings -> Webhook create a new webhook. The payload URL is the URL you copied from the extension. The content type should be `application/json`. Select the following individual events: Branch or tag creation, Check runs, Pull requests, Pull request reviews, Pushes, Statuses. Enable the webhook.
+   - In GitLab go to each repo that you want to integrate with Aha!. In Settings -> Webhooks create a new webhook. The URL is the URL you copied from the extension. Select the following individual events: Push events and Merge request events. Enable the webhook.
 
     - Instead of doing this at the repo level, it is also possible to create an organization-wide webhook that wil work for all repos.
 
-  3. Configure the extension with your repos. In Aha! go to Settings -> Account -> Extensions -> GitHub Integration. In the Related repositories section add each repo that should be considered when looking for PRs that match a feature ID.
+  3. Configure the extension with your repos. In Aha! go to Settings -> Account -> Extensions -> GitLab Integration. In the Related repositories section add each repo that should be considered when looking for PRs that match a feature ID.
 
 ## Working on the extension
 
@@ -49,7 +48,7 @@ npm install -g aha-cli
 Clone the repo:
 
 ```sh
-git clone https://github.com/aha-develop/github.git
+git clone https://github.com/aha-develop/gitlab.git
 ```
 
 Install required modules:
