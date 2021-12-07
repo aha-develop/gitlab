@@ -12,10 +12,8 @@
   },
   "dependencies": {
     "@aha-app/aha-develop-react": "^1.0.0",
-    "gql-tag": "^1.0.1",
     "graphql": "^16.0.1",
     "graphql-request": "^3.6.1",
-    "graphql-tag": "^2.12.6",
     "lodash": "^4.17.21"
   },
   "type": "module",
