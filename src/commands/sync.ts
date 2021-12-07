@@ -1,5 +1,5 @@
 import { linkMergeRequestToRecord } from '@lib/fields';
-import { withGitLubApi } from '@lib/gitlab/api';
+import { withGitLabApi } from '@lib/gitlab/api';
 import { getMRFromURL } from '@lib/gitlab/getMRFromURL';
 
 import { getExtensionFields } from '@lib/fields';
@@ -16,7 +16,7 @@ aha.on('sync', async ({ record }, { settings }) => {
   const mergeRequests = (await getExtensionFields('mergeRequests', record)) as IExtensionFieldMergeRequest[];
   for await (const mr of mergeRequests ?? []) {
     if (mr?.webUrl) {
-      const mrResult = await withGitLubApi(getMRFromURL(mr?.webUrl));
+      const mrResult = await withGitLabApi(getMRFromURL(mr?.webUrl));
       if (mrResult) {
         linkMergeRequestToRecord(mrResult, record);
       }

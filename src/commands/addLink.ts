@@ -1,5 +1,5 @@
 import { linkMergeRequestToRecord } from '@lib/fields';
-import { withGitLubApi } from '@lib/gitlab/api';
+import { withGitLabApi } from '@lib/gitlab/api';
 import { getMRFromURL } from '@lib/gitlab/getMRFromURL';
 import { validateMrURL } from '@lib/gitlab/validateMrURL';
 
@@ -18,7 +18,7 @@ aha.on('addLink', async ({ record, context }) => {
     throw new Error('Please enter a valid merge request URL');
   }
 
-  const res = await withGitLubApi(getMRFromURL(mrUrl));
+  const res = await withGitLabApi(getMRFromURL(mrUrl));
   if (res) {
     await linkMergeRequestToRecord(res, record);
   } else {
