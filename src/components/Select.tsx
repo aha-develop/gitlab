@@ -40,9 +40,9 @@ const Select = ({ options, value, labelKey = 'label', valueKey = 'value', onChan
           }
           return (
             <aha-menu-item key={index}>
-              <a href="#" onClick={() => handleClickOption(val)}>
+              <aha-button kind="plain" onClick={() => handleClickOption(val)}>
                 {label}
-              </a>
+              </aha-button>
             </aha-menu-item>
           );
         })}
