@@ -40,8 +40,11 @@ const handleMergeRequest = async (payload: Webhook.Payload) => {
   // Make sure the MR is linked to its record.
   const record = await linkMergeRequest(mr);
 
+  if (!record) {
+    return null;
+  }
+
   // Link MR to record
-  await linkMergeRequestToRecord(mr, record);
   await triggerEvent('mr.update', payload, record);
   await triggerAutomation(payload, record)
 };
