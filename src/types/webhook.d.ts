@@ -55,6 +55,7 @@ declare namespace Webhook {
     iid?: number;
     url?: string;
     state?: Gitlab.MergeRequestState;
+    action?: Gitlab.MergeRequestAction;
     title?: string;
     source?: Project;
     target?: Project;
@@ -64,5 +65,6 @@ declare namespace Webhook {
     merge_status: Gitlab.MergeStatus;
     source_branch?: string;
     target_branch?: string;
+    work_in_progress?: boolean;
   }
 }
