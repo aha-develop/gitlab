@@ -80,7 +80,7 @@ async function triggerAutomation(payload: Webhook.Payload, record) {
   }
 
   const triggers: Record<string, (pr: any) => string> = {
-    open: (pr) => pr.work_in_progress ? "draftPROpened" : "prOpened",
+    open: (pr) => pr.work_in_progress ? "draftPrOpened" : "prOpened",
     close: () => "prClosed",
     reopen: () => "prReopened",
     merge: () => "prMerged",
