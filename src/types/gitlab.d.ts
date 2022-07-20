@@ -5,6 +5,8 @@ declare namespace Gitlab {
 
   type MergeRequestState = 'all' | 'closed' | 'locked' | 'merged' | 'opened';
 
+  type MergeRequestAction = 'open' | 'close' | 'reopen' | 'update' | 'approved' | 'unapproved' | 'approval' | 'unapproval' | 'merge';
+
   interface Connections<T> {
     count?: number;
     edges?: Edge<T>[];

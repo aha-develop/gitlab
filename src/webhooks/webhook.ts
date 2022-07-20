@@ -1,3 +1,4 @@
+import { IDENTIFIER } from '@lib/extension.js';
 import { runCommand } from '@lib/runCommand.js';
 import { linkMergeRequest, linkBranch, referenceToRecordFromTitle, linkMergeRequestToRecord } from '../lib/fields.js';
 
@@ -39,9 +40,13 @@ const handleMergeRequest = async (payload: Webhook.Payload) => {
   // Make sure the MR is linked to its record.
   const record = await linkMergeRequest(mr);
 
+  if (!record) {
+    return null;
+  }
+
   // Link MR to record
-  await linkMergeRequestToRecord(mr, record);
   await triggerEvent('mr.update', payload, record);
+  await triggerAutomation(payload, record)
 };
 
 async function handleCreateBranch(payload: Webhook.Payload) {
@@ -57,6 +62,50 @@ async function handleCreateBranch(payload: Webhook.Payload) {
 
     const record = await linkBranch(branchName, payload?.repository?.homepage ?? '');
     await triggerEvent('branch.create', payload, record);
+  }
+}
+
+/**
+ * Trigger an automation
+ *
+ * @param payload
+ * @param record
+ */
+async function triggerAutomation(payload: Webhook.Payload, record) {
+  if (payload?.event_type !== "merge_request") return;
+
+  const { object_attributes } = payload
+  if (!object_attributes) return;
+
+  // Check the record is a supported type
+  if (!["Epic", "Feature", "Requirement"].includes(record.typename)) {
+    return;
+  }
+
+  const triggers: Record<string, (pr: any) => string> = {
+    open: (pr) => pr.work_in_progress ? "draftPrOpened" : "prOpened",
+    close: () => "prClosed",
+    reopen: () => "prReopened",
+    merge: () => "prMerged",
+    approved: () => "prApproved",
+    unapproval: () => "prChangesRequested"
+  };
+
+  const { action } = object_attributes
+  if (!action) return
+
+  const trigger = (triggers[action] || (() => null))(
+    payload.object_attributes
+  );
+
+  console.log(`Triggering ${trigger} automation on ${record.referenceNumber}`)
+
+  if (trigger) {
+    await aha.triggerAutomationOn(
+      record,
+      [IDENTIFIER, trigger].join("."),
+      true
+    );
   }
 }
 
