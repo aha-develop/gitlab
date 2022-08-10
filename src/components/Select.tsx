@@ -20,7 +20,7 @@ const Select = ({ options, value, labelKey = 'label', valueKey = 'value', onChan
 
   return (
     <aha-menu>
-      <aha-button slot="control" size="small" kind="attribute">
+      <aha-button slot="control" size="small" kind="secondary">
         <aha-icon icon="fa-regular fa-clock" />
         &nbsp;
         <strong>{_.get(_.find(options, { [valueKey]: value }), labelKey, '...')}</strong>
