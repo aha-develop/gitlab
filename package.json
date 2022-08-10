@@ -1,7 +1,7 @@
 {
   "name": "@aha-develop/gitlab",
   "description": "GitLab integration",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Aha! (support@aha.io)",
   "repository": {
     "type": "git",
@@ -65,6 +65,29 @@
           "title": "Webhook from GitLab",
           "entryPoint": "src/webhooks/webhook.ts",
           "public": true
+        }
+      },
+      "automationTriggers": {
+        "draftPrOpened": {
+          "title": "Draft PR opened"
+        },
+        "prOpened": {
+          "title": "PR opened"
+        },
+        "prMerged": {
+          "title": "PR merged"
+        },
+        "prClosed": {
+          "title": "PR closed"
+        },
+        "prReopened": {
+          "title": "PR reopened"
+        },
+        "prApproved": {
+          "title": "PR approved"
+        },
+        "prChangesRequested": {
+          "title": "PR changes requested"
         }
       }
     }
