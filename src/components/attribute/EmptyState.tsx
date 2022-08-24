@@ -1,10 +1,13 @@
 import { useClipboard } from '@aha-app/aha-develop-react';
-import { ICON, IDENTIFIER, LEARN_MORE_URL } from '@lib/extension';
+import { IDENTIFIER } from '@lib/extension';
 import { linkMergeRequestToRecord } from '@lib/fields';
 import { withGitLabApi } from '@lib/gitlab/api';
 import { getMRFromURL } from '@lib/gitlab/getMRFromURL';
 import { validateMrURL } from '@lib/gitlab/validateMrURL';
 import React, { useEffect, useState } from 'react';
+
+const ICON = aha.iconForExtensionIdentifier(IDENTIFIER);
+const LEARN_MORE_URL = 'https://github.com/aha-develop/gitlab';
 
 type MenuProps = {
   record: Aha.ApplicationModel;

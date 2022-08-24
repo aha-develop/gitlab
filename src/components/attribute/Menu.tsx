@@ -1,11 +1,11 @@
 import React from 'react';
-
 import { runCommand } from '@lib/runCommand';
-import { LEARN_MORE_URL } from '@lib/extension';
 
 export type MenuProps = {
   record: Aha.RecordUnion;
 };
+
+const LEARN_MORE_URL = 'https://github.com/aha-develop/gitlab';
 
 export const Menu = ({ record }: MenuProps) => {
   return (
