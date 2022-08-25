@@ -1,6 +1,5 @@
 import { IDENTIFIER } from '@lib/extension.js';
-import { runCommand } from '@lib/runCommand.js';
-import { linkMergeRequest, linkBranch, referenceToRecordFromTitle, linkMergeRequestToRecord } from '../lib/fields.js';
+import { linkBranch, linkMergeRequest, referenceToRecordFromTitle } from '@lib/fields.js';
 
 const EMPTY_SHA = '0000000000000000000000000000000000000000';
 
@@ -8,6 +7,9 @@ aha.on('webhook', async ({ headers, payload }) => {
   const event = headers.HTTP_X_GITLAB_EVENT;
 
   console.log(`Received webhook '${event}' ${payload.event_type || ''}`);
+
+  // Flag the account as having successfully set up the webhook
+  aha.account.setExtensionField(IDENTIFIER, 'webhookConfigured', true);
 
   switch (event) {
     case 'Push Hook':

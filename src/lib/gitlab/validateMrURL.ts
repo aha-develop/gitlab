@@ -1,10 +1,13 @@
+const regex = /\/[^\/]+\/[^\/]+\/[^\/]+\/merge_requests\/\d+/;
+
 /**
  * Validate Merge Request URL
- *
- * @param urlString
- * @returns
  */
 export const validateMrURL = (urlString: string) => {
-  const url = new URL(urlString);
-  return url.origin === 'https://gitlab.com' && url.pathname.match(/\/[^\/]+\/[^\/]+\/[^\/]+\/merge_requests\/\d+/);
+  try {
+    const url = new URL(urlString);
+    return url.origin === 'https://gitlab.com' && regex.test(url.pathname);
+  } catch (err) {
+    return false;
+  }
 };

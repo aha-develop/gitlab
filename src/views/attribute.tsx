@@ -2,13 +2,12 @@ import React from 'react';
 import { Attribute } from '../components/attribute/Attribute';
 import { ExtensionRoot } from '../components/ExtensionRoot';
 
-/**
- * @type {Aha.RenderExtension}
- */
-const links = ({ record, fields }) => {
+const links: Aha.RenderExtension = ({ record, fields }) => {
+  if (!record) return;
+
   return (
     <ExtensionRoot>
-      <Attribute fields={fields} record={record} />
+      <Attribute fields={fields as IRecordExtensionFields} record={record as unknown as Aha.RecordUnion} />
     </ExtensionRoot>
   );
 };
