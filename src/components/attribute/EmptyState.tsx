@@ -38,6 +38,7 @@ const Menu = ({ record, onPaste }: MenuProps) => {
 };
 
 const EmptyStateBox = ({ children }) => (
+  // @ts-ignore
   <aha-box class="m-0" style={{ color: 'var(--theme-secondary-text)' }}>
     <div style={{ margin: 'calc(-2em + 12px)' }}>{children}</div>
   </aha-box>

@@ -23,7 +23,7 @@ export const Menu = ({ record }: MenuProps) => {
         </a>
       </aha-menu-item>
       <aha-menu-item type="danger" onClick={() => runCommand(record, 'removeLinks')}>
-        <a href>
+        <a href="">
           <aha-icon icon="fa fa-trash" />
           Unlink all MRs
         </a>
