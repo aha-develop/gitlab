@@ -33,3 +33,23 @@ export const withGitLabApi = async <T extends (api: any, ...rest) => any>(
   const api = await gitlabApi(cachedOnly, cachedRetry);
   return await callback(api);
 };
+
+export const gitlabFetchApi = (cachedOnly = false, cachedRetry = true) => {
+  const authOptions = { useCachedRetry: cachedRetry };
+  if (cachedOnly) {
+    authOptions['reAuth'] = false;
+  }
+
+  return async (path: string, options: RequestInit = {}) => {
+    const authData = await aha.auth('gitlab', authOptions);
+    const url = `https://gitlab.com/api/v4/${path}`;
+
+    return fetch(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${authData.token}`
+      }
+    });
+  };
+};

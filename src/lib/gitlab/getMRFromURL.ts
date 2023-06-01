@@ -9,8 +9,13 @@ import { parseGitlabURL } from './parseGitlabURL';
  */
 export const getMRFromURL =
   (url: string) =>
-  async (api): Promise<Gitlab.MR> => {
-    const { repo, mrId } = parseGitlabURL(url);
+  async (api): Promise<Gitlab.MR | undefined> => {
+    const mergeRequestInfo = parseGitlabURL(url);
+    if (!mergeRequestInfo) {
+      return undefined;
+    }
+
+    const { repo, mrId } = mergeRequestInfo;
     const { project = undefined } = await api.request(GetMRByIid, { fullPath: repo, iids: [mrId] });
     return project?.mergeRequests?.nodes?.[0] ?? undefined;
   };

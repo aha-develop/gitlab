@@ -1,4 +1,4 @@
-import { IDENTIFIER } from './extension';
+import { IDENTIFIER } from '../extension';
 
 /**
  * Link Merge Request to Aha Record
@@ -160,6 +160,10 @@ export const linkMergeRequest = async (mr: Gitlab.MR) => {
 
   if (!record && mr?.title) {
     record = await referenceToRecordFromTitle(mr.title ?? '');
+  }
+
+  if (!record && mr?.sourceBranch) {
+    record = await referenceToRecordFromTitle(mr.sourceBranch ?? '');
   }
 
   if (record) {

@@ -1,13 +1,14 @@
+const MR_REGEX = /https:\/\/.*?\/(.*?)\/-\/merge_requests\/(\d+)/;
+
 /**
- * Get repo url and pr id
- *
- * @param url
- * @returns
+ * Get repo path and pr id
  */
-export const parseGitlabURL = (url: string): ParsedMR => {
-  const parsedURL = new URL(url).pathname.split('/');
-  return {
-    repo: parsedURL.slice(1, 3).join('/'),
-    mrId: parsedURL[5]
-  };
+export const parseGitlabURL = (url: string): ParsedMR | undefined => {
+  const match = url.match(MR_REGEX);
+  if (match) {
+    return {
+      repo: match[1],
+      mrId: match[2]
+    };
+  }
 };
