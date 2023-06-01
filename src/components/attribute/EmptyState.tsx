@@ -1,5 +1,5 @@
 import { useClipboard } from '@aha-app/aha-develop-react';
-import { IDENTIFIER } from '@lib/extension';
+import { IDENTIFIER } from 'extension';
 import { linkMergeRequestToRecord } from '@lib/fields';
 import { withGitLabApi } from '@lib/gitlab/api';
 import { getMRFromURL } from '@lib/gitlab/getMRFromURL';

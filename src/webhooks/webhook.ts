@@ -1,4 +1,4 @@
-import { IDENTIFIER } from '@lib/extension.js';
+import { IDENTIFIER } from 'extension.js';
 import { linkBranch, linkMergeRequest, referenceToRecordFromTitle } from '@lib/fields.js';
 
 const EMPTY_SHA = '0000000000000000000000000000000000000000';
