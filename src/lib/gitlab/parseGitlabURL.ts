@@ -1,7 +1,7 @@
 const MR_REGEX = /https:\/\/.*?\/(.*?)\/-\/merge_requests\/(\d+)/;
 
 /**
- * Get repo path and pr id
+ * Get repo path and pr id from the full url
  */
 export const parseGitlabURL = (url: string): ParsedMR | undefined => {
   const match = url.match(MR_REGEX);

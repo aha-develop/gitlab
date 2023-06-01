@@ -1,6 +1,23 @@
 import { GraphQLClient } from 'graphql-request';
 
 /**
+ * Get a graphql client for the gitlab API:
+ *
+ * ```ts
+ * const api = await gitlabApi();
+ * const response = await api.request(`
+ *  query {
+ *    project(fullPath: "aha-develop/aha-develop.gitlab") {
+ *      mergeRequests {
+ *        nodes {
+ *          id
+ *          title
+ *        }
+ *      }
+ *    }
+ * }
+ * `);
+ * ```
  *
  * @param cachedOnly
  * @returns
@@ -34,6 +51,15 @@ export const withGitLabApi = async <T extends (api: any, ...rest) => any>(
   return await callback(api);
 };
 
+/**
+ * Get a custom fetch function that works with the gitlab REST API:
+ *
+ * ```ts
+ * const api = gitlabFetchApi();
+ * const response = await api(`merge_requests?search=${escapedQuery}&in=title`);
+ * const data = await response.json();
+ * ```
+ */
 export const gitlabFetchApi = (cachedOnly = false, cachedRetry = true) => {
   const authOptions = { useCachedRetry: cachedRetry };
   if (cachedOnly) {
