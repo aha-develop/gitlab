@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useOutsideAlerter } from '@aha-app/aha-develop-react';
 // @ts-ignore
-import { usePopper } from 'https://cdn.skypack.dev/react-popper';
+import { usePopper } from 'react-popper';
 
 export function usePopperAlerter(options) {
   const delay = options.delay || 500;

@@ -1,7 +1,7 @@
 {
   "name": "@aha-develop/gitlab",
   "description": "GitLab integration",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "Aha! (support@aha.io)",
   "repository": {
     "type": "git",
@@ -14,7 +14,9 @@
     "@aha-app/aha-develop-react": "^1.0.0",
     "graphql": "^16.0.1",
     "graphql-request": "^3.6.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "react-popper": "^2.3.0",
+    "inflected": "^2.1.0"
   },
   "type": "module",
   "license": "MIT",
